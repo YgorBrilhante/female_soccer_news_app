@@ -9,14 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.room.Room;
 
 import com.brilhante.appfutebolfeminino.databinding.FragmentNewsBinding;
 
 import adapter.NewsAdapter;
+import data.local.database;
+import domain.News;
 
 public class NewsFragment extends Fragment {
 
     private FragmentNewsBinding binding;
+    private database.AppDatabase db;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -26,8 +30,15 @@ public class NewsFragment extends Fragment {
         binding = FragmentNewsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+        db = Room.databaseBuilder(getContext(), database.AppDatabase.class, "Soccer News - Female").build();
+
         binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext()));
-        newsViewModel.getNews().observe(getViewLifecycleOwner(), news -> {binding.rvNews.setAdapter(new NewsAdapter(news));});
+        newsViewModel.getNews().observe(getViewLifecycleOwner(), news -> {
+            binding.rvNews.setAdapter(new NewsAdapter(news, favoritedNews -> {
+                db.NewsDao().insert(favoritedNews);
+            }));
+        });
         return root;
     }
 
@@ -36,4 +47,5 @@ public class NewsFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
 }

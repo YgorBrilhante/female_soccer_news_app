@@ -1,13 +1,17 @@
 package com.brilhante.appfutebolfeminino.ui.news;
 
+import android.app.Application;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.room.Room;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import data.SoccerNewsApi;
+import data.local.database;
 import domain.News;
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -18,9 +18,11 @@ import domain.News;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private final List<News> news;
+    private final NewsAdapter.favoriteListener favoriteListener;
 
-    public NewsAdapter(List<News> news){
+    public NewsAdapter(List<News> news, NewsAdapter.favoriteListener favoriteListener){
         this.news = news;
+        this.favoriteListener = favoriteListener;
     }
 
     @NonNull
@@ -42,6 +44,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             i.setData(Uri.parse(news.getLink()));
             holder.itemView.getContext().startActivity(i);
         });
+        holder.binding.ivShare.setOnClickListener(view -> {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, news.getLink());
+            i.putExtra(Intent.EXTRA_TEXT, news.getLink());
+            holder.itemView.getContext().startActivity(Intent.createChooser(i, "Share via"));
+        });
+        holder.binding.ivFavorite.setOnClickListener(view -> {
+          news.favorite = !news.favorite;
+          this.favoriteListener.onFavorite(news);
+          notifyItemChanged(position);
+        });
     }
 
     @Override
@@ -56,5 +70,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+    public interface favoriteListener {
+        void onFavorite(News news);
     }
 }
