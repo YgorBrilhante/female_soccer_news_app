@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Soccer News - Female</string>
+    <string name="title_news">News</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="button_new_item">Open</string>
+    <string name="image_thumbnail">Image Thumb</string>
+    <string name="icon_favorite">Favorite Icon</string>
+    <string name="icon_share">Share Icon</string>
+</resources>
