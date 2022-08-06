@@ -80,14 +80,15 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="@string/icon_share"
+            android:focusable="true"
+            android:padding="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ivFavorite"
             app:srcCompat="@drawable/ic_share"
-            android:contentDescription="@string/icon_share"
-            android:background="?android:selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="4dp" />
+            app:tint="@color/favorite_default" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,5 @@
 package com.brilhante.appfutebolfeminino.ui.news;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.room.Room;
 
+import com.brilhante.appfutebolfeminino.MainActivity;
 import com.brilhante.appfutebolfeminino.databinding.FragmentNewsBinding;
 
 import adapter.NewsAdapter;
 import data.local.database;
-import domain.News;
 
 public class NewsFragment extends Fragment {
 
     private FragmentNewsBinding binding;
-    private database.AppDatabase db;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -32,17 +30,28 @@ public class NewsFragment extends Fragment {
         View root = binding.getRoot();
 
 
-        db = Room.databaseBuilder(getContext(), database.AppDatabase.class, "Soccer News - Female")
-                .allowMainThreadQueries()
-                .build();
-
         binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext()));
         newsViewModel.getNews().observe(getViewLifecycleOwner(), news -> {
             binding.rvNews.setAdapter(new NewsAdapter(news, updatedNews -> {
-                AsyncTask.execute(() ->
-                    db.NewsDao().insert(updatedNews));
+                MainActivity activity = (MainActivity) getActivity();
+                if (activity != null) {
+                    activity.getDb().NewsDao().save(updatedNews);
+                }
             }));
         });
+
+        newsViewModel.getState().observe(getViewLifecycleOwner(), state -> {
+           switch (state){
+               case DOING:
+                   //TODO: INCLUIR SWIPE REFRESH LAYOUT
+               case DONE:
+                   //TODO: Finalizar swiperefreshLayout
+               case  ERROR:
+                   //TODO: Finalizar swiperefresh
+                   // TODO: Mostrar um erro
+           }
+        });
+
         return root;
     }
 

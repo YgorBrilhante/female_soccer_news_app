@@ -13,7 +13,7 @@ import domain.News;
 public interface NewsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(News news);
+    void save(News news);
 
     @Query("SELECT * FROM news WHERE favorite = 1")
     List<News> loadFavoriteNews();
