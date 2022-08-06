@@ -1,5 +1,6 @@
 package com.brilhante.appfutebolfeminino.ui.news;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +32,15 @@ public class NewsFragment extends Fragment {
         View root = binding.getRoot();
 
 
-        db = Room.databaseBuilder(getContext(), database.AppDatabase.class, "Soccer News - Female").build();
+        db = Room.databaseBuilder(getContext(), database.AppDatabase.class, "Soccer News - Female")
+                .allowMainThreadQueries()
+                .build();
 
         binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext()));
         newsViewModel.getNews().observe(getViewLifecycleOwner(), news -> {
-            binding.rvNews.setAdapter(new NewsAdapter(news, favoritedNews -> {
-                db.NewsDao().insert(favoritedNews);
+            binding.rvNews.setAdapter(new NewsAdapter(news, updatedNews -> {
+                AsyncTask.execute(() ->
+                    db.NewsDao().insert(updatedNews));
             }));
         });
         return root;
