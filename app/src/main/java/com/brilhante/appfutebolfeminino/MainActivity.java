@@ -11,13 +11,13 @@ import androidx.room.Room;
 
 import com.brilhante.appfutebolfeminino.databinding.ActivityMainBinding;
 
-import data.local.database;
+import data.local.AppDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
     @SuppressWarnings("FieldCanBeLocal")
     private ActivityMainBinding binding;
-    private database.AppDatabase db;
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDb() {
-        db = Room.databaseBuilder(this, database.AppDatabase.class, "Soccer News - Female")
+        db = Room.databaseBuilder(this, AppDatabase.class, "Soccer News - Female")
                 .allowMainThreadQueries()
                 .build();
     }
 
-    public database.AppDatabase getDb() {
+    public AppDatabase getDb() {
         return db;
     }
 }

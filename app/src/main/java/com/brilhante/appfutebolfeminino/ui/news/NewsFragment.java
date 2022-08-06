@@ -14,7 +14,6 @@ import com.brilhante.appfutebolfeminino.MainActivity;
 import com.brilhante.appfutebolfeminino.databinding.FragmentNewsBinding;
 
 import adapter.NewsAdapter;
-import data.local.database;
 
 public class NewsFragment extends Fragment {
 
